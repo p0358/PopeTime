@@ -1,42 +1,49 @@
 #import <UIKit/UIKit.h>
+#import <Cephei/HBPreferences.h>
 
 #define kOverlayViewTag 21372137
 
+// iOS 13
 @interface SBFLockScreenDateViewController: UIViewController
 -(void)_updateView;
-//+(void)updatePopeView;
 @end
 
-%hook SBFLockScreenDateViewController
+// iOS 12
+@interface SBLockScreenDateViewController: UIViewController
+-(void)_updateView;
+@end
 
-/*%new
-+(void)updatePopeView {
+HBPreferences *preferences;
+BOOL isEnabledAllTheTime = false;
+BOOL werePrefsUpdated = false;
 
-}*/
+static void prefsDidUpdate() {
+    werePrefsUpdated = true;
+}
 
--(void)_updateView {
-    %orig;
-    //[SBFLockScreenDateViewController updatePopeView];
-    
+static void updatePopeView(UIView *v) {
     NSDate * now = [NSDate date];
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"HH:mm"];
     NSString *newDateString = [outputFormatter stringFromDate:now];
-    UIView *v = [self view];
 
     BOOL isAlreadyThere = false;
 
     for (UIView *view in v.superview.superview.superview.subviews) {
-        if(view.tag == kOverlayViewTag) {
-            isAlreadyThere = true;
+        if (view.tag == kOverlayViewTag) {
+            if (werePrefsUpdated) {
+                [view removeFromSuperview]; // preferences were updated, we need to recreate our view
+            } else {
+                isAlreadyThere = true;
+            }
         }
     }
+    werePrefsUpdated = false;
     
-    if ([[NSString stringWithFormat: @"%@", newDateString] isEqualToString: @"21:37"]) {
+    if (isEnabledAllTheTime || [[NSString stringWithFormat: @"%@", newDateString] isEqualToString: @"21:37"]) {
 
         if (!isAlreadyThere) {
 
-            //UIImageView *snoopImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/snoop.png"]];
             UIImageView *snoopImageView = [[UIImageView alloc] init];
 
             NSArray *animationFrames = [NSArray arrayWithObjects:
@@ -73,4 +80,35 @@
     }
 }
 
+// iOS 13
+%hook SBFLockScreenDateViewController
+-(void)_updateView {
+    %orig;
+    updatePopeView([self view]);
+}
 %end
+
+// iOS 12
+%hook SBLockScreenDateViewController
+-(void)_updateView {
+    %orig;
+    updatePopeView([self view]);
+}
+%end
+
+%ctor {
+    preferences = [[HBPreferences alloc] initWithIdentifier:@"net.p0358.popetime"];
+    [preferences registerDefaults:@{
+        @"EnabledAllTheTime": @NO
+        //@"AnotherSetting": @1.f
+    }];
+
+    [preferences registerBool:&isEnabledAllTheTime default:NO forKey:@"EnabledAllTheTime"];
+
+    [preferences registerPreferenceChangeBlock:^{
+        prefsDidUpdate();
+    }];
+
+    NSLog(@"Am I enabled all the time? %i", [preferences boolForKey:@"EnabledAllTheTime"]);
+    //NSLog(@"Can I do thing? %i", doThing);
+}

@@ -10,5 +10,6 @@ PopeTime_FILES = Tweak.xm
 PopeTime_FRAMEWORKS = UIKit
 PopeTime_FRAMEWORKS += CoreGraphics
 PopeTime_FRAMEWORKS += QuartzCore
+PopeTime_EXTRA_FRAMEWORKS += Cephei
 
 include $(THEOS_MAKE_PATH)/tweak.mk
