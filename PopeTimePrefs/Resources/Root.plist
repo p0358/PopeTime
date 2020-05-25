@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+	
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Ustawienia</string>
+			<key>footerText</key>
+			<string>Animacja jest pokazywana na ekranie blokady zawsze o godzinie 21:37. Jeśli włączysz powyższe ustawienie, animacja będzie pokazywana zawsze – jest to użyteczne do przetestowania ustawień.</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>net.p0358.popetime</string>
+			<key>key</key>
+			<string>ShowAllTheTime</string>
+			<key>label</key>
+			<string>Zawsze pokazuj</string>
+			<key>PostNotification</key>
+			<string>net.p0358.popetime/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Położenie</string>
+			<key>footerText</key>
+			<string>Dół to domyślne ustawienie, które wyświetli papieża w oryginalnym rozmiarze u dołu ekranu. Dopasuj wyświetli go na środku, dopasowując do szerokości ekranu. Wypełnij wypełni nim cały ekran, przez co część obrazu może być ucięta.</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>defaults</key>
+			<string>net.p0358.popetime</string>
+			<key>key</key>
+			<string>DisplayMode</string>
+			<key>label</key>
+			<string>Położenie</string>
+			<key>default</key>
+			<string>0</string>
+			<key>validTitles</key>
+			<array>
+				<string>Dół</string>
+				<string>Dopasuj</string>
+				<string>Wypełnij</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>0</string>
+				<string>1</string>
+				<string>2</string>
+			</array>
+			<key>PostNotification</key>
+			<string>net.p0358.popetime/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Audio</string>
+			<key>footerText</key>
+			<string>Audio będzie odtwarzane gdy papież jest widoczny.</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>net.p0358.popetime</string>
+			<key>key</key>
+			<string>AudioEnabled</string>
+			<key>label</key>
+			<string>Odtwarzaj</string>
+			<key>PostNotification</key>
+			<string>net.p0358.popetime/ReloadPrefs</string>
+		</dict>
+
+	</array>
+	<key>title</key>
+	<string>PopeTime</string>
+</dict>
+</plist>

@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
+#import <AVFoundation/AVFoundation.h>
 
 #define kOverlayViewTag 21372137
 
@@ -14,18 +15,34 @@
 @end
 
 HBPreferences *preferences;
-BOOL isEnabledAllTheTime = false;
-BOOL werePrefsUpdated = false;
+AVAudioPlayer *player;
+static BOOL isEnabledAllTheTime;
+static NSInteger displayMode;
+static BOOL isAudioEnabled;
+static BOOL werePrefsUpdated = false;
 
 static void prefsDidUpdate() {
     werePrefsUpdated = true;
 }
 
-static void updatePopeView(UIView *v) {
+static BOOL is2137() {
     NSDate * now = [NSDate date];
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"HH:mm"];
     NSString *newDateString = [outputFormatter stringFromDate:now];
+
+    return [[NSString stringWithFormat: @"%@", newDateString] isEqualToString: @"21:37"];
+}
+
+static BOOL didInitSoundAlready = false;
+static void initSoundIfNeeded() {
+    if (didInitSoundAlready) return;
+    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"/Library/Application Support/PopeTime/inba.mp3" isDirectory:NO] error:nil];
+    [player prepareToPlay];
+    didInitSoundAlready = true;
+}
+
+static void updatePopeView(UIView *v) {
 
     BOOL isAlreadyThere = false;
 
@@ -40,7 +57,7 @@ static void updatePopeView(UIView *v) {
     }
     werePrefsUpdated = false;
     
-    if (isEnabledAllTheTime || [[NSString stringWithFormat: @"%@", newDateString] isEqualToString: @"21:37"]) {
+    if (isEnabledAllTheTime || is2137()) {
 
         if (!isAlreadyThere) {
 
@@ -58,8 +75,12 @@ static void updatePopeView(UIView *v) {
             
             snoopImageView.frame = v.superview.bounds;
             snoopImageView.tag = kOverlayViewTag;
-            //snoopImageView.contentMode = UIViewContentModeScaleAspectFill;
-            snoopImageView.contentMode = UIViewContentModeBottom;
+            switch (displayMode) {
+                case 1: snoopImageView.contentMode = UIViewContentModeScaleAspectFit; break;
+                case 2: snoopImageView.contentMode = UIViewContentModeScaleAspectFill; break;
+                case 0:
+                default: snoopImageView.contentMode = UIViewContentModeBottom; break;
+            }
 
             snoopImageView.animationImages = animationFrames;
             snoopImageView.animationDuration = 0.35;
@@ -71,6 +92,12 @@ static void updatePopeView(UIView *v) {
 
         }
 
+        if (isAudioEnabled) {
+            initSoundIfNeeded();
+            if (![player isPlaying])
+                [player play];
+        }
+
     } else if (isAlreadyThere) {
         for (UIView *view in v.superview.superview.superview.subviews) {
             if (view.tag == kOverlayViewTag) {
@@ -78,6 +105,9 @@ static void updatePopeView(UIView *v) {
             }
         }
     }
+
+    if (!isAudioEnabled && didInitSoundAlready && [player isPlaying])
+        [player stop];
 }
 
 // iOS 13
@@ -98,17 +128,21 @@ static void updatePopeView(UIView *v) {
 
 %ctor {
     preferences = [[HBPreferences alloc] initWithIdentifier:@"net.p0358.popetime"];
-    [preferences registerDefaults:@{
-        @"EnabledAllTheTime": @NO
+    /*[preferences registerDefaults:@{
+        @"ShowAllTheTime": @NO
         //@"AnotherSetting": @1.f
-    }];
+    }];*/
 
-    [preferences registerBool:&isEnabledAllTheTime default:NO forKey:@"EnabledAllTheTime"];
+    [preferences registerBool:&isEnabledAllTheTime default:NO forKey:@"ShowAllTheTime"];
+    [preferences registerInteger:&displayMode default:0 forKey:@"DisplayMode"];
+    [preferences registerBool:&isAudioEnabled default:NO forKey:@"AudioEnabled"];
 
     [preferences registerPreferenceChangeBlock:^{
         prefsDidUpdate();
     }];
 
-    NSLog(@"Am I enabled all the time? %i", [preferences boolForKey:@"EnabledAllTheTime"]);
+    //NSLog(@"Am I enabled all the time? %i", [preferences boolForKey:@"ShowAllTheTime"]);
     //NSLog(@"Can I do thing? %i", doThing);
+
+    player = [[AVAudioPlayer alloc] init];
 }
