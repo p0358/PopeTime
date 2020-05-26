@@ -19,27 +19,21 @@ AVAudioPlayer *player;
 static BOOL isEnabledAllTheTime;
 static NSInteger displayMode;
 static BOOL isAudioEnabled;
+static NSInteger audioStartAt;
+static BOOL didInitSoundAlready = false;
 static BOOL werePrefsUpdated = false;
 
 static void prefsDidUpdate() {
     werePrefsUpdated = true;
 }
 
-static BOOL is2137() {
+static inline BOOL is2137() {
     NSDate * now = [NSDate date];
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"HH:mm"];
     NSString *newDateString = [outputFormatter stringFromDate:now];
 
     return [[NSString stringWithFormat: @"%@", newDateString] isEqualToString: @"21:37"];
-}
-
-static BOOL didInitSoundAlready = false;
-static void initSoundIfNeeded() {
-    if (didInitSoundAlready) return;
-    player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"/Library/Application Support/PopeTime/inba.mp3" isDirectory:NO] error:nil];
-    [player prepareToPlay];
-    didInitSoundAlready = true;
 }
 
 static void updatePopeView(UIView *v) {
@@ -56,7 +50,7 @@ static void updatePopeView(UIView *v) {
         }
     }
     werePrefsUpdated = false;
-    
+
     if (isEnabledAllTheTime || is2137()) {
 
         if (!isAlreadyThere) {
@@ -93,9 +87,20 @@ static void updatePopeView(UIView *v) {
         }
 
         if (isAudioEnabled) {
-            initSoundIfNeeded();
-            if (![player isPlaying])
+
+            // init sound if needed
+            if (!didInitSoundAlready) {
+                player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"/Library/Application Support/PopeTime/inba.mp3" isDirectory:NO] error:nil];
+                didInitSoundAlready = true;
+            }
+
+            if (![player isPlaying]) {
+                if (audioStartAt > 0) switch (audioStartAt) {
+                    case 1: player.currentTime = 22; break;
+                    case 2: player.currentTime = 44; break;
+                }
                 [player play];
+            }
         }
 
     } else if (isAlreadyThere) {
@@ -128,21 +133,13 @@ static void updatePopeView(UIView *v) {
 
 %ctor {
     preferences = [[HBPreferences alloc] initWithIdentifier:@"net.p0358.popetime"];
-    /*[preferences registerDefaults:@{
-        @"ShowAllTheTime": @NO
-        //@"AnotherSetting": @1.f
-    }];*/
 
     [preferences registerBool:&isEnabledAllTheTime default:NO forKey:@"ShowAllTheTime"];
     [preferences registerInteger:&displayMode default:0 forKey:@"DisplayMode"];
     [preferences registerBool:&isAudioEnabled default:NO forKey:@"AudioEnabled"];
+    [preferences registerInteger:&audioStartAt default:0 forKey:@"AudioStartAt"];
 
     [preferences registerPreferenceChangeBlock:^{
         prefsDidUpdate();
     }];
-
-    //NSLog(@"Am I enabled all the time? %i", [preferences boolForKey:@"ShowAllTheTime"]);
-    //NSLog(@"Can I do thing? %i", doThing);
-
-    player = [[AVAudioPlayer alloc] init];
 }

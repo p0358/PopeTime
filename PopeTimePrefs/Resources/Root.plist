@@ -71,7 +71,8 @@
 			<key>label</key>
 			<string>Audio</string>
 			<key>footerText</key>
-			<string>Audio będzie odtwarzane gdy papież jest widoczny.</string>
+			<string>Utwór „Atlantis – September 28th” będzie odtwarzany, gdy papież pojawi się na ekranie blokady i zatrzyma się, gdy przestanie być on wyświetlany.
+Możesz określić czy utwór ma się odtwarzać od początku (lub wznawiać gdy został przerwany), bądź zawsze rozpoczynać jego odtwarzanie w jednym z predefiniowanych momentów.</string>
 		</dict>
 
 		<dict>
@@ -85,6 +86,33 @@
 			<string>AudioEnabled</string>
 			<key>label</key>
 			<string>Odtwarzaj</string>
+			<key>PostNotification</key>
+			<string>net.p0358.popetime/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>defaults</key>
+			<string>net.p0358.popetime</string>
+			<key>key</key>
+			<string>AudioStartAt</string>
+			<key>label</key>
+			<string>Położenie</string>
+			<key>default</key>
+			<string>0</string>
+			<key>validTitles</key>
+			<array>
+				<string>0:00 lub wznów</string>
+				<string>0:22</string>
+				<string>0:44</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>0</string>
+				<string>1</string>
+				<string>2</string>
+			</array>
 			<key>PostNotification</key>
 			<string>net.p0358.popetime/ReloadPrefs</string>
 		</dict>
