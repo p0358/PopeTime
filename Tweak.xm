@@ -55,7 +55,7 @@ static void updatePopeView(UIView *v) {
 
         if (!isAlreadyThere) {
 
-            UIImageView *snoopImageView = [[UIImageView alloc] init];
+            UIImageView *popeImageView = [[UIImageView alloc] init];
 
             NSArray *animationFrames = [NSArray arrayWithObjects:
                 [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope0.png"],
@@ -67,21 +67,21 @@ static void updatePopeView(UIView *v) {
                 [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope6.png"],
             nil];
             
-            snoopImageView.frame = v.superview.bounds;
-            snoopImageView.tag = kOverlayViewTag;
+            popeImageView.frame = v.superview.bounds;
+            popeImageView.tag = kOverlayViewTag;
             switch (displayMode) {
-                case 1: snoopImageView.contentMode = UIViewContentModeScaleAspectFit; break;
-                case 2: snoopImageView.contentMode = UIViewContentModeScaleAspectFill; break;
+                case 1: popeImageView.contentMode = UIViewContentModeScaleAspectFit; break;
+                case 2: popeImageView.contentMode = UIViewContentModeScaleAspectFill; break;
                 case 0:
-                default: snoopImageView.contentMode = UIViewContentModeBottom; break;
+                default: popeImageView.contentMode = UIViewContentModeBottom; break;
             }
 
-            snoopImageView.animationImages = animationFrames;
-            snoopImageView.animationDuration = 0.35;
-            [snoopImageView startAnimating];
+            popeImageView.animationImages = animationFrames;
+            popeImageView.animationDuration = 0.35;
+            [popeImageView startAnimating];
 
-            if (![snoopImageView isDescendantOfView: v.superview.superview.superview]) {
-                [v.superview.superview.superview insertSubview: snoopImageView atIndex: 0];
+            if (![popeImageView isDescendantOfView: v.superview.superview.superview]) {
+                [v.superview.superview.superview insertSubview: popeImageView atIndex: 0];
             }
 
         }
