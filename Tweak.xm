@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
 #import <AVFoundation/AVFoundation.h>
+#import <objc/runtime.h>
 
 #define kOverlayViewTag 21372137
 
@@ -90,7 +91,7 @@ static void updatePopeView(UIView *v) {
 
             // init sound if needed
             if (!didInitSoundAlready) {
-                player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"/Library/Application Support/PopeTime/inba.mp3" isDirectory:NO] error:nil];
+                player = [[objc_getClass("AVAudioPlayer") alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"/Library/Application Support/PopeTime/inba.mp3" isDirectory:NO] error:nil];
                 didInitSoundAlready = true;
             }
 
