@@ -94,4 +94,16 @@
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
+-(void)openGitHub {
+	UIApplication *application = [UIApplication sharedApplication];
+	NSURL *URL = [NSURL URLWithString:@"https://github.com/p0358/PopeTime"];
+	[application openURL:URL options:@{} completionHandler:^(BOOL success) {}];
+}
+
+-(void)openPayPal {
+	UIApplication *application = [UIApplication sharedApplication];
+	NSURL *URL = [NSURL URLWithString:@"https://paypal.me/p0358donate"];
+	[application openURL:URL options:@{} completionHandler:^(BOOL success) {}];
+}
+
 @end
