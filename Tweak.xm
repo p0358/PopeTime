@@ -2,6 +2,7 @@
 #import <Cephei/HBPreferences.h>
 #import <AVFoundation/AVFoundation.h>
 #import <objc/runtime.h>
+#include <rootless.h>
 
 #define kOverlayViewTag 21372137
 
@@ -59,13 +60,13 @@ static void updatePopeView(UIView *v) {
             UIImageView *popeImageView = [[UIImageView alloc] init];
 
             NSArray *animationFrames = [NSArray arrayWithObjects:
-                [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope0.png"],
-                [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope1.png"],
-                [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope2.png"],
-                [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope3.png"],
-                [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope4.png"],
-                [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope5.png"],
-                [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope6.png"],
+                [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope0.png")],
+                [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope1.png")],
+                [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope2.png")],
+                [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope3.png")],
+                [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope4.png")],
+                [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope5.png")],
+                [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope6.png")],
             nil];
             
             popeImageView.frame = v.superview.bounds;
@@ -91,7 +92,7 @@ static void updatePopeView(UIView *v) {
 
             // init sound if needed
             if (!didInitSoundAlready) {
-                player = [[objc_getClass("AVAudioPlayer") alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"/Library/Application Support/PopeTime/inba.mp3" isDirectory:NO] error:nil];
+                player = [[objc_getClass("AVAudioPlayer") alloc] initWithContentsOfURL:[NSURL fileURLWithPath:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/inba.mp3") isDirectory:NO] error:nil];
                 didInitSoundAlready = true;
             }
 

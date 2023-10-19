@@ -1,12 +1,20 @@
 #import <Preferences/PSListController.h>
 #import <Preferences/PSSpecifier.h>
 #import <CepheiPrefs/HBRootListController.h>
+
+#if __has_include (<CepheiPrefs/CepheiPrefs-Swift.h>)
+#import <CepheiPrefs/CepheiPrefs-Swift.h>
+#import <CepheiPrefs/PSListController+HBTintAdditions.h>
+#else
 #import <CepheiPrefs/HBAppearanceSettings.h>
+#endif
+
 #import <Cephei/HBPreferences.h>
+
 #import "NSTask.h"
 
-@interface POPETIMEAppearanceSettings : HBAppearanceSettings
-@end
+//@interface POPETIMEAppearanceSettings : HBAppearanceSettings
+//@end
 
 @interface POPETIMERootListController : HBRootListController {
     UITableView * _table;

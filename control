@@ -1,7 +1,7 @@
 Package: net.p0358.popetime
 Name: PopeTime
 Depends: mobilesubstrate, ws.hbang.common (>= 1.14)
-Version: 1.0.1
+Version: 1.0.2
 Architecture: iphoneos-arm
 Description: Inba wciąż trwa. O 21:37 wyświetla papieską nakładkę nad tapetą ekranu blokady. Dostępne są ustawienia z opcją wyboru layoutu, czy nakładka ma się pojawiać zawsze czy tylko o 21:37 oraz możliwością odtwarzania audio.
 Maintainer: p0358

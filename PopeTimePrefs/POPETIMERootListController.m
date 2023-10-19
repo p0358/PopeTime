@@ -1,4 +1,5 @@
 #include "POPETIMERootListController.h"
+#include <rootless.h>
 
 @implementation POPETIMERootListController
 
@@ -6,7 +7,20 @@
     self = [super init];
 
     if (self) {
-        POPETIMEAppearanceSettings *appearanceSettings = [[POPETIMEAppearanceSettings alloc] init];
+        //POPETIMEAppearanceSettings *appearanceSettings = [[POPETIMEAppearanceSettings alloc] init];
+        //self.hb_appearanceSettings = appearanceSettings;
+        HBAppearanceSettings *appearanceSettings = [[HBAppearanceSettings alloc] init];
+        //appearanceSettings.tintColor = [UIColor colorWithRed:0.64 green:0.67 blue:1.00 alpha:1];
+        appearanceSettings.tintColor = [UIColor colorWithRed:0.98 green:0.75 blue:0.53 alpha:1];
+        //appearanceSettings.statusBarTintColor = [UIColor whiteColor]; // deprecated
+        appearanceSettings.statusBarStyle = UIStatusBarStyleLightContent;
+        appearanceSettings.navigationBarTitleColor = [UIColor whiteColor];
+        appearanceSettings.navigationBarTintColor = [UIColor whiteColor];
+        appearanceSettings.tableViewCellSeparatorColor = [UIColor colorWithWhite:0 alpha:0];
+        //appearanceSettings.navigationBarBackgroundColor = [UIColor colorWithRed:0.64 green:0.67 blue:1.00 alpha:1];
+        appearanceSettings.navigationBarBackgroundColor = [UIColor colorWithRed:0.98 green:0.75 blue:0.53 alpha:1];
+        //appearanceSettings.translucentNavigationBar = YES;
+        //appearanceSettings.largeTitleStyle = 2;
         self.hb_appearanceSettings = appearanceSettings;
 
         /*self.respringButton = [[UIBarButtonItem alloc] initWithTitle:@"ReSpring" 
@@ -27,7 +41,7 @@
 
         self.iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.iconView.contentMode = UIViewContentModeScaleAspectFit;
-        self.iconView.image = [UIImage imageWithContentsOfFile:@"/Library/PreferenceBundles/PopeTimePrefs.bundle/icon@2x.png"];
+        self.iconView.image = [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/PreferenceBundles/PopeTimePrefs.bundle/icon@2x.png")];
         self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
         self.iconView.alpha = 0.0;
         [self.navigationItem.titleView addSubview:self.iconView];
@@ -49,7 +63,7 @@
 
 -(NSArray *)specifiers {
 	if (_specifiers == nil) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] retain];
+		_specifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
 	}
 
 	return _specifiers;
@@ -69,13 +83,13 @@
     self.headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,200,200)];
 
     NSArray *animationFrames = [NSArray arrayWithObjects:
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope0.png"],
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope1.png"],
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope2.png"],
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope3.png"],
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope4.png"],
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope5.png"],
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/PopeTime/pope6.png"],
+        [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope0.png")],
+        [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope1.png")],
+        [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope2.png")],
+        [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope3.png")],
+        [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope4.png")],
+        [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope5.png")],
+        [UIImage imageWithContentsOfFile:ROOT_PATH_NS(@"/Library/Application Support/PopeTime/pope6.png")],
     nil];
     
     self.headerImageView.contentMode = UIViewContentModeScaleAspectFit;

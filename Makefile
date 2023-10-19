@@ -1,16 +1,20 @@
 ARCHS = arm64 arm64e
-TARGET = iphone:clang:latest:latest
+
+ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
+	TARGET = iphone:clang:15.5:15.0
+else
+	TARGET = iphone:clang:15.5:11.2
+endif
+
 INSTALL_TARGET_PROCESSES = SpringBoard
 
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = PopeTime
-PopeTime_FILES = Tweak.xm
-PopeTime_FRAMEWORKS = UIKit
-PopeTime_FRAMEWORKS += CoreGraphics
-PopeTime_FRAMEWORKS += QuartzCore
-PopeTime_EXTRA_FRAMEWORKS += Cephei
-PopeTime_CFLAGS = -fobjc-arc
+$(TWEAK_NAME)_FILES = Tweak.xm
+$(TWEAK_NAME)_FRAMEWORKS = UIKit AVFoundation
+$(TWEAK_NAME)_EXTRA_FRAMEWORKS += Cephei
+$(TWEAK_NAME)_CFLAGS = -fobjc-arc -Wno-c++11-extensions
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
