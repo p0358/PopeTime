@@ -7,28 +7,14 @@
     self = [super init];
 
     if (self) {
-        //POPETIMEAppearanceSettings *appearanceSettings = [[POPETIMEAppearanceSettings alloc] init];
-        //self.hb_appearanceSettings = appearanceSettings;
         HBAppearanceSettings *appearanceSettings = [[HBAppearanceSettings alloc] init];
-        //appearanceSettings.tintColor = [UIColor colorWithRed:0.64 green:0.67 blue:1.00 alpha:1];
         appearanceSettings.tintColor = [UIColor colorWithRed:0.98 green:0.75 blue:0.53 alpha:1];
-        //appearanceSettings.statusBarTintColor = [UIColor whiteColor]; // deprecated
-        appearanceSettings.statusBarStyle = UIStatusBarStyleLightContent;
-        appearanceSettings.navigationBarTitleColor = [UIColor whiteColor];
         appearanceSettings.navigationBarTintColor = [UIColor whiteColor];
-        appearanceSettings.tableViewCellSeparatorColor = [UIColor colorWithWhite:0 alpha:0];
-        //appearanceSettings.navigationBarBackgroundColor = [UIColor colorWithRed:0.64 green:0.67 blue:1.00 alpha:1];
+        appearanceSettings.navigationBarTitleColor = [UIColor whiteColor];
         appearanceSettings.navigationBarBackgroundColor = [UIColor colorWithRed:0.98 green:0.75 blue:0.53 alpha:1];
-        //appearanceSettings.translucentNavigationBar = YES;
-        //appearanceSettings.largeTitleStyle = 2;
+        appearanceSettings.statusBarStyle = UIStatusBarStyleLightContent;
+        appearanceSettings.tableViewCellSeparatorColor = [UIColor colorWithWhite:0 alpha:0];
         self.hb_appearanceSettings = appearanceSettings;
-
-        /*self.respringButton = [[UIBarButtonItem alloc] initWithTitle:@"ReSpring" 
-                                    style:UIBarButtonItemStylePlain
-                                    target:self 
-                                    action:@selector(respring)];
-        self.respringButton.tintColor = [UIColor whiteColor];
-        self.navigationItem.rightBarButtonItem = self.respringButton;*/
 
         self.navigationItem.titleView = [UIView new];
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
@@ -72,13 +58,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    /*self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,200)];
-    self.headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,200,200)];
-    //self.headerImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.headerImageView.contentMode = UIViewContentModeScaleAspectFit;
-    self.headerImageView.image = [UIImage imageWithContentsOfFile:@"/Library/PreferenceBundles/PopeTimePrefs.bundle/Banner.png"];
-    self.headerImageView.translatesAutoresizingMaskIntoConstraints = NO;*/
-
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,200)];
     self.headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,200,200)];
 
@@ -114,73 +93,5 @@
     tableView.tableHeaderView = self.headerView;
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    //CGRect frame = self.table.bounds;
-    //frame.origin.y = -frame.size.height;
-
-    //self.navigationController.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.64 green:0.67 blue:1.00 alpha:1.0];
-    self.navigationController.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.98 green:0.75 blue:0.53 alpha:1.0];
-    [self.navigationController.navigationController.navigationBar setShadowImage: [UIImage new]];
-    self.navigationController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    //self.navigationController.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationController.navigationBar.translucent = YES;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    //[self.navigationController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
-    //[self.navigationController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    /*CGFloat offsetY = scrollView.contentOffset.y;
-
-    if (offsetY > 200) {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.iconView.alpha = 1.0;
-            self.titleLabel.alpha = 0.0;
-        }];
-    } else {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.iconView.alpha = 0.0;
-            self.titleLabel.alpha = 1.0;
-        }];
-    }
-    
-    if (offsetY > 0) offsetY = 0;
-    self.headerImageView.frame = CGRectMake(0, offsetY, self.headerView.frame.size.width, 200 - offsetY);*/
-}
-
-/*-(void)respring {
-	UIAlertController *respring = [UIAlertController alertControllerWithTitle:@"TweakName"
-													 message:@"Do you really want to ReSpring?"
-													 preferredStyle:UIAlertControllerStyleAlert];
-	UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-			[self respringUtil];
-	}];
-
-	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-	[respring addAction:confirmAction];
-	[respring addAction:cancelAction];
-	[self presentViewController:respring animated:YES completion:nil];
-
-}
-
--(void)respringUtil {
-	NSTask *t = [[NSTask alloc] init];
-    [t setLaunchPath:@"/usr/bin/killall"];
-    [t setArguments:[NSArray arrayWithObjects:@"backboardd", nil]];
-    [t launch];
-}*/
 
 @end

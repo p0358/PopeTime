@@ -13,20 +13,13 @@
 
 #import "NSTask.h"
 
-//@interface POPETIMEAppearanceSettings : HBAppearanceSettings
-//@end
-
 @interface POPETIMERootListController : HBRootListController {
     UITableView * _table;
 }
 
-//@property (nonatomic, retain) UIBarButtonItem *respringButton;
 @property (nonatomic, retain) UIView *headerView;
 @property (nonatomic, retain) UIImageView *headerImageView;
 @property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UIImageView *iconView;
-
-//-(void)respring;
-//-(void)respringUtil;
 
 @end
