@@ -1,14 +1,9 @@
-#ARCHS = arm64 arm64e
-#TARGET = iphone:clang:15.5:12.0
 ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
 	ARCHS = arm64 arm64e
 	TARGET = iphone:clang:15.5:15.0
-	ADDITIONAL_CFLAGS = -DROOTLESS
 else
-	ARCHS = arm64 arm64e
-	TARGET = iphone:clang:15.5:11.2
-	arm64e_CFLAGS = -fno-ptrauth-abi-version
-	arm64e_LDFLAGS = -ld_classic
+	ARCHS = armv7 armv7s arm64 arm64e
+	TARGET = iphone:clang:14.2:7.0
 endif
 
 include $(THEOS)/makefiles/common.mk
